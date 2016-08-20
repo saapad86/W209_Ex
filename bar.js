@@ -69,15 +69,6 @@ d3.csv("bar-data.csv", function(error, data) {
 
 });
 
-var toggleColor = (function(){
-   var currentColor = "steelblue";
-
-    return function(){
-        currentColor = currentColor == "steelblue" ? "orange" : "steelblue";
-        d3.select(this).style("fill", currentColor);
-    }
-})();
-
 var highlightData = (function() {
   d3.select("svg").remove();
 
@@ -125,9 +116,12 @@ var highlightData = (function() {
         .attr("width", x.rangeBand())
         .attr("y", function(d) { return y(d.value); })
         .attr("height", function(d) { return height - y(d.value); })
-        .on("click",toggleColor)
-      .filter(function(d) { return d.value < 4000 })
+        .filter(function(d) { return d.value < 4000 })
         .style("fill","orange");
+
+    svg.selectAll("rect")
+        .append("svg:title")
+        .text(function(d) { return d.value + "  steps taken on " + d.date; })
 
   });  
 })
